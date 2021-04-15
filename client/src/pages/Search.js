@@ -16,10 +16,10 @@ export default function Search() {
 
   return (
     <>
-      <div class="container">
-        <div class="row">
+      <div className="container">
+        <div className="row">
           <div
-            class="col-md-12 text-center"
+            className="col-md-12 text-center"
             style={{ border: "solid 2px black" }}
           >
             <h1>(React) Google Books Search</h1>
@@ -27,17 +27,15 @@ export default function Search() {
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-md-12 p-5" style={{ border: "solid 2px black" }}>
+        <div className="row">
+          <div className="col-md-12 p-5" style={{ border: "solid 2px black" }}>
             <h4>Search</h4>
             <h5>Book</h5>
-            <div class=" w-100 input-group input-group-lg">
-              <span class="input-group-text" id="inputGroup-sizing-lg">
-                Large
-              </span>
+            <div className=" w-100 input-group input-group-lg">
+             
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 onChange={(e) => setTerm(e.target.value)}
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-lg"
@@ -46,21 +44,21 @@ export default function Search() {
             <button
               type="button"
               onClick={retrieveBooks}
-              class="btn btn-primary btn-lg"
+              className="btn btn-primary btn-lg"
             >
-              Large button
+              Search
             </button>
           </div>
         </div>
       </div>
-      <div class="container" style={{ border: "solid 2px black" }}>
+      <div className="container" style={{ border: "solid 2px black" }}>
         <h3>Results</h3>
         {books.map((book) => (
-          <div class="row" style={{ border: "solid 2px black" }}>
-            <div class="col-md-12 p-2">
-              <div class="d-flex justify-content-between w-100">
-                <div class="d-flex flex-column">
-                  <p class="lead">{book.volumeInfo.title}</p>
+          <div className="row" style={{ border: "solid 2px black" }}>
+            <div className="col-md-12 p-2">
+              <div className="d-flex justify-content-between w-100">
+                <div className="d-flex flex-column">
+                  <p className="lead">{book.volumeInfo.title}</p>
                   {book.volumeInfo.authors.length > 1 && (
                     <p>
                       {book.volumeInfo.authors.map((author, index) => (
@@ -87,12 +85,20 @@ export default function Search() {
                  
                   <p>{book.volumeInfo.description}</p>
                 </div>
-                <div class="d-flex">
-                  <button type="button" class="btn btn-primary btn-lg">
-                    Large button
+                <div className="d-flex">
+                  <button type="button" className="btn btn-primary btn-lg">
+                    View
                   </button>
-                  <button type="button" class="btn btn-primary btn-lg">
-                    Large button
+                  <button type="button" className="btn btn-primary btn-lg" onClick={()=>{
+                      API.saveBook({
+                        authors: book.volumeInfo.authors,
+                        description: book.volumeInfo.description,
+                        image: book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail  : "",
+                        link: book.volumeInfo.infoLink,
+                        title: book.volumeInfo.title
+                      })
+                  }}>
+                    Save
                   </button>
                 </div>
               </div>
