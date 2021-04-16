@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+require("env").config()
 const bodyParser = require("body-parser")
 require("./models/book")
 const PORT = process.env.PORT || 3001;
@@ -7,7 +8,8 @@ const app = express();
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 const mongoose = require('mongoose');
-const uri = "mongodb+srv://dbNicholas:Seagirt8715@cluster0.7njwy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+process.env.ATLASUSERNAME
+const uri = `mongodb+srv://${process.env.ATLASUSERNAME}:${process.env.ATLASPASSWORD}@cluster0.7njwy.mongodb.net/googleBooks?retryWrites=true&w=majority`;
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const Book= mongoose.model("Book")
 
@@ -20,7 +22,18 @@ app.post("/api/books", async function(req,res){
   await book.save()
  res.send(201)
 })
+app.get("/api/books", async function(req,res){
+  await Book.find({}, (err, docs) => {
+    res.json(docs)
+    })
+})
 
+app.delete("/api/books/:id", async function(req,res){
+  Book.deleteOne({ _id: req.params.id}, function (err) {
+    if(err) console.log(err);
+    console.log("Successful deletion");
+  });
+})
 // Send every request to the React app
 // Define any API routes before this runs
 app.get("*", function(req, res) {
