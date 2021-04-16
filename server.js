@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-require("env").config()
+require("dotenv").config()
 const bodyParser = require("body-parser")
 require("./models/book")
 const PORT = process.env.PORT || 3001;
@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json())
 const mongoose = require('mongoose');
-process.env.ATLASUSERNAME
+
 const uri = `mongodb+srv://${process.env.ATLASUSERNAME}:${process.env.ATLASPASSWORD}@cluster0.7njwy.mongodb.net/googleBooks?retryWrites=true&w=majority`;
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const Book= mongoose.model("Book")
